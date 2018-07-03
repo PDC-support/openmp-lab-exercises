@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -g -O2
-OMPFLAGS = -mp
+OMPFLAGS = -openmp
 LIBS = -lm
 
 
