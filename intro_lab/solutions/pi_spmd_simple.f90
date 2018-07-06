@@ -18,16 +18,16 @@ implicit none
 
 integer, parameter :: MAX_THREADS = 4
 
-integer*8 :: num_steps = 100000000
-real*8 step
+integer(kind=8) :: num_steps = 100000000
+real(kind=8) step
 
 integer i, num_threads
-real*8 pi, full_sum
-real*8 start_time, run_time
-real*8, dimension(1:MAX_THREADS) :: partial_sum
+real(kind=8) pi, full_sum
+real(kind=8) start_time, run_time
+real(kind=8), dimension(1:MAX_THREADS) :: partial_sum
 
 integer thread_id
-real*8 x
+real(kind=8) x
 
 step = 1.0D0 / num_steps
 
@@ -39,15 +39,15 @@ do num_threads = 1, MAX_THREADS
     !$omp parallel private(thread_id, i, x)
 
         thread_id = OMP_GET_THREAD_NUM() + 1
-        partial_sum(thread_id) = 0.0
+        partial_sum(thread_id) = 0.0D0
 
         if (thread_id == 1) then
             print '(" num_threads = ", i0)', num_threads
         endif
 
         do i = thread_id, num_steps, num_threads
-            x = (i+0.5)*step
-            partial_sum(thread_id) = partial_sum(thread_id) + 4.0/(1.0+x*x)
+            x = (i-0.5D0)*step
+            partial_sum(thread_id) = partial_sum(thread_id) + 4.0D0/(1.0D0+x*x)
         enddo
 
     !$omp end parallel

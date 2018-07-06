@@ -16,22 +16,22 @@ use omp_lib
 
 implicit none
 
-integer*8 :: num_steps = 100000000
-real*8 step
+integer(kind=8) :: num_steps = 100000000
+real(kind=8) step
 
 integer i
-real*8 x, pi, raw_sum
-real*8 start_time, run_time
+real(kind=8) x, pi, raw_sum
+real(kind=8) start_time, run_time
 
 step = 1.0D0 / num_steps
 
 start_time = OMP_GET_WTIME()
 
-raw_sum = 0.0
+raw_sum = 0.0D0
        
 do i = 1, num_steps
-    x = (i-0.5)*step
-    raw_sum = raw_sum + 4.0/(1.0+x*x)
+    x = (i-0.5D0)*step
+    raw_sum = raw_sum + 4.0D0/(1.0D0+x*x)
 enddo
 
 pi = step * raw_sum

@@ -13,13 +13,13 @@ implicit none
 
 integer, parameter :: MAX_THREADS = 4
 
-integer*8 :: num_steps = 100000000
+integer(kind=8) :: num_steps = 100000000
 
-real*8 step
+real(kind=8) step
 
 integer i, num_threads
-real*8 x, pi, raw_sum
-real*8 start_time, run_time
+real(kind=8) x, pi, raw_sum
+real(kind=8) start_time, run_time
 
 step = 1.0D0 / num_steps
 
@@ -28,7 +28,7 @@ do num_threads = 1, MAX_THREADS
     call OMP_SET_NUM_THREADS(num_threads)
     start_time = OMP_GET_WTIME()
 
-    raw_sum = 0.0
+    raw_sum = 0.0D0
 
     !$omp parallel
 
@@ -38,8 +38,8 @@ do num_threads = 1, MAX_THREADS
 
         !$omp do private(x) reduction(+:raw_sum)
             do i = 1, num_steps
-                x = (i-0.5)*step
-                raw_sum = raw_sum + 4.0/(1.0+x*x)
+                x = (i-0.5D0)*step
+                raw_sum = raw_sum + 4.0D0/(1.0D0+x*x)
             enddo
         !$omp end do
 
