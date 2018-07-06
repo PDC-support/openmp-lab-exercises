@@ -47,7 +47,7 @@ int main ()
 #pragma omp single
 	  printf(" num_threads = %d",omp_get_num_threads());
 
-#pragma omp for reduction(+:sum)
+#pragma omp for private(x) reduction(+:sum)
 	  for (i=1;i<= num_steps; i++){
 		  x = (i-0.5)*step;
 		  sum = sum + 4.0/(1.0+x*x);
