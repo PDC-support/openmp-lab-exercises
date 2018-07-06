@@ -50,11 +50,11 @@ All examples are available in both C and Fortran90.
 - OpenMP Intro lab: 
   - [Instructions](intro_lab/OpenMPlab-assigment.pdf)
   - Simple hello world program [in C](intro_lab/hello.c) and [in Fortran](intro_lab/hello.f90)
-  - Calculate pi [in C](intro_lab/pi.c) and [in Fortran](intro_lab/hello.f90)
+  - Calculate pi [in C](intro_lab/pi.c) and [in Fortran](intro_lab/pi.f90)
 - OpenMP Advanced Lab: 
   - [Instructions](advanced_lab/ompproj.pdf)
   - In C: [shwater2d.c](advanced_lab/c/shwater2d.c), [vtk_export.c](advanced_lab/c/vtk_export.c) and [Makefile](advanced_lab/c/Makefile)
-  - In Fortran[shwater2d.f90](advanced_lab/f90/shwater2d.f90) and [vtk_export.f90](advanced_lab/f90/vtk_export.f90) and [Makefile](advanced_lab/f90/Makefile)
+  - In Fortran: [shwater2d.f90](advanced_lab/f90/shwater2d.f90), [vtk_export.f90](advanced_lab/f90/vtk_export.f90) and [Makefile](advanced_lab/f90/Makefile)
 
 
 
