@@ -59,7 +59,8 @@ do num_threads = 1, MAX_THREADS
 
     pi = step * full_sum
     run_time = OMP_GET_WTIME() - start_time
-    print '(" pi is ", f12.6, " in ", f12.6, " seconds and ", i0, " threads")', pi, run_time, num_threads
+    print '(" pi is ", f12.6, " in ", f12.6, " seconds and ", i0, " threads. Error = ", e15.6)', &
+        pi, run_time, num_threads, abs(3.14159265358979323846D0 - pi)
 
 enddo
 
