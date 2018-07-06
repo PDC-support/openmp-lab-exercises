@@ -1,4 +1,4 @@
-! NAME:   PI SPMD final version without false sharing
+! NAME: PI SPMD ... a simple version.
 !
 ! This program will numerically compute the integral of
 !
@@ -22,8 +22,9 @@ integer*8 :: num_steps = 100000000
 real*8 step
 
 integer i, num_threads
-real*8 pi, full_sum, partial_sum
+real*8 pi, full_sum
 real*8 start_time, run_time
+real*8, dimension(1:MAX_THREADS) :: partial_sum
 
 integer thread_id
 real*8 x
@@ -34,27 +35,27 @@ do num_threads = 1, MAX_THREADS
 
     call OMP_SET_NUM_THREADS(num_threads)
     start_time = OMP_GET_WTIME()
-    full_sum = 0.0
 
-    !$omp parallel private(thread_id, partial_sum, i, x)
+    !$omp parallel private(thread_id, i, x)
 
         thread_id = OMP_GET_THREAD_NUM() + 1
-        partial_sum = 0.0
+        partial_sum(thread_id) = 0.0
 
-        !$omp single
+        if (thread_id == 1) then
             print '(" num_threads = ", i0)', num_threads
-        !$omp end single
+        endif
 
         do i = thread_id, num_steps, num_threads
             x = (i+0.5)*step
-            partial_sum = partial_sum + 4.0/(1.0+x*x)
+            partial_sum(thread_id) = partial_sum(thread_id) + 4.0/(1.0+x*x)
         enddo
 
-        !$omp critical
-            full_sum = full_sum + partial_sum
-        !$omp end critical
-
     !$omp end parallel
+
+    full_sum = 0.0
+    do thread_id = 1, num_threads
+        full_sum = full_sum + partial_sum(thread_id)
+    enddo
 
     pi = step * full_sum
     run_time = OMP_GET_WTIME() - start_time
