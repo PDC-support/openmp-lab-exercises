@@ -24,7 +24,7 @@ The Cray automatically loads several [modules](https://www.pdc.kth.se/support/do
 - SLURM -  [batch jobs](https://www.pdc.kth.se/support/documents/run_jobs/queueing_jobs.html) and [interactive jobs](https://www.pdc.kth.se/support/documents/run_jobs/run_interactively.html)
 
 
-# Running MPI programs on Beskow
+# Running OpenMP programs on Beskow
 
 First it is necessary to book a node for interactive use:
 
@@ -32,23 +32,15 @@ First it is necessary to book a node for interactive use:
 salloc -A <allocation-name> -N 1 -t 1:0:0
 ```
 
-Then the aprun command is used to launch an MPI application:
+Then the aprun command is used to launch an OpenMP application:
 
 ```
-aprun -n 32 ./example.x
+aprun -n 1 -d <number of threads> -cc none ./example.x
 ```
 
-In this example we will start 32 MPI tasks (there are 32 cores per node on the Beskow nodes).
+In this example we will start one task with 32 threads (there are 32 cores per node on the Beskow nodes).
 
-If you do not use aprun and try to start your program on the login node then you will get an error similar to
-
-```
-Fatal error in MPI_Init: Other MPI error, error stack:
-MPIR_Init_thread(408): Initialization failed
-MPID_Init(123).......: channel initialization failed
-MPID_Init(461).......:  PMI2 init failed: 1
-```
-
+It is important to use the `aprun` command since otherwise the job will run on the Beskow login node.
 
 # OpenMP Exercises
 
