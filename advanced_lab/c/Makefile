@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -O2 -mp
+CFLAGS = -O2 -homp
 SRC = vtk_export.c shwater2d.c
 OBJS = ${SRC:.c=.o}
 DEST = shwater2d
