@@ -107,17 +107,17 @@ code to calculate the value of pi using the parallel construct.
 
 The figure below shows the numerical technique, we are going to use to calculate pi.
 
-![PI integral](image/pi_int.png "Figure 1. Numerical integration for calculating PI")
+<img src="image/pi_int.png" alt="PI_integral" width="350px"/>
 
 Mathematically, we know that
 
-![PI Eq. 1](image/pi_eq_1.png "")
+<img src="image/pi_eq_1.png" alt="PI_Eq_1" width="200px"/>
 
 We can approximate the integral as a sum of rectangles
 
-![PI Eq. 2](image/pi_eq_2.png "")
+<img src="image/pi_eq_2.png" alt="PI_Eq_2" width="200px"/>
 
-where each rectangle has width Delta_x and height F(x<sub>i</sub>) at the middle of interval i.
+where each rectangle has width &Delta;x and height F(x<sub>i</sub>) at the middle of interval i.
 
 A simple serial C code to calculate pi is the following:
 
@@ -236,8 +236,8 @@ the execution time for 1, 2, 4, 8, 16, 32 threads.
 Hints:
 
 To change the schedule, you can either change the environment variable with
-``export OMP_SCHEDULE=<type>`` where type can be any of static, dynamic, guided or in
-the source code as ``omp parallel for schedule(<type>)``.
+``export OMP_SCHEDULE=type`` where ``type`` can be any of static, dynamic, guided or in
+the source code as ``omp parallel for schedule(type)``.
 
 Questions:
 
