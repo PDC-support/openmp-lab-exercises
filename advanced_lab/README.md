@@ -14,7 +14,7 @@ speedup characteristics.
 
 Your task is to parallelize a finite-volume solver for the two dimensional
 shallow water equations. Measure speedup and if you have time, tune the code.
-You don’t need to under- stand the numerics in order to solve this exercise (a
+You don’t need to understand the numerics in order to solve this exercise (a
 short description is given in Appendix A). However, it assumes some prior
 experience with OpenMP, please refer to the lecture on shared memory
 programming if necessary.
