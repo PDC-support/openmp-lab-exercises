@@ -65,29 +65,29 @@ below
 - What’s the difference between
 
 ```
-$!omp parallel do
+!$omp parallel do
 do i=1,n
 ...
-$!omp end parallel do
-$!omp parallel do
+!$omp end parallel do
+!$omp parallel do
 do j=1,m
 ...
-$!omp end parallel do
+!$omp end parallel do
 ```
 
 and
 
 ```
-$!omp parallel
-$!omp do
+!$omp parallel
+!$omp do
 do i=1,n
 ...
-$!omp end do
-$!omp do
+!$omp end do
+!$omp do
 do j=1,m
 ...
-$!omp end do
-$!omp end parallel
+!$omp end do
+!$omp end parallel
 ```
 
 _Hint: How are threads created/destroyed by OpenMP? How can it impact performance?_
