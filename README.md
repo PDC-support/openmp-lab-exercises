@@ -50,7 +50,7 @@ All examples are available in both C and Fortran90.
 - OpenMP Intro lab: 
   - [Instructions](intro_lab/README.md)
   - Simple hello world program [in C](intro_lab/hello.c) and [in Fortran](intro_lab/hello.f90)
-  - Calculate pi [in C](intro_lab/pi.c) and [in Fortran](intro_lab/pi.f90)
+  - Calculate &pi; [in C](intro_lab/pi.c) and [in Fortran](intro_lab/pi.f90)
   - Solutions will be made available later during the lab
 - OpenMP Advanced Lab: 
   - [Instructions](advanced_lab/README.md)

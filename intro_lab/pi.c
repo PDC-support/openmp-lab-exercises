@@ -20,7 +20,7 @@ History: Written by Tim Mattson, 11/99.
 static long num_steps = 100000000;
 double step;
 
-int main ()
+int main()
 {
     int i;
     double x, pi, sum = 0.0;
@@ -38,4 +38,6 @@ int main ()
     pi = step * sum;
     run_time = omp_get_wtime() - start_time;
     printf("\n pi with %ld steps is %lf in %lf seconds\n ",num_steps,pi,run_time);
+
+    return 0;
 }
