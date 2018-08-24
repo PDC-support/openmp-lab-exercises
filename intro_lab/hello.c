@@ -1,7 +1,8 @@
 #include <stdio.h>
+
 int main ()
 {
-  int ID = 0; // thread id
+    int thread_id = 0;
 
-  printf("Hello World from thread %d \n", ID);
+    printf("Hello World from thread %d \n", thread_id);
 }

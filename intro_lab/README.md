@@ -94,7 +94,7 @@ Questions:
 - How many different ways are there to change the number of threads? Which one are those?
 - How can you make the output ordered from thread 0 to thread 4?
 
-## Exercise 2 - Creating Threads: calculate &pi; in parallel using only pragma omp parallel
+## Exercise 2 - Creating Threads: calculate &pi; in parallel using pragma omp parallel
 
 _Concepts: Parallel, default data environment, runtime library calls_
 
@@ -213,15 +213,15 @@ Questions:
 - What would happen if you hadn’t used critical or atomic a shared variable?
 - How does the execution time change varying the number of threads? Is it what
   you expected?
-- Do the two version of the codes differ in performance? If so, what do you
-  think it is the reason?
+- Do the two versions of the code differ in performance? If so, what do you
+  think is the reason?
 
 ## Exercise 4 - Calculate &pi; with a loop and a reduction
 
 _Concepts: worksharing, parallel loop, schedule, reduction_
 
 Here we are going to implement a fourth parallel version of the pi.c / pi.f90
-code to calculate the value of &pi; using omp for and reduction operations.
+code to calculate the value of &pi; using ``omp for`` and ``reduction`` operations.
 
 Instructions: Create a new parallel versions of the pi.c / pi.f90 program using
 the parallel construct ``#pragma omp for`` and ``reduction`` operation. Run the new
@@ -231,7 +231,7 @@ the execution time for 1, 2, 4, 8, 16, 32 threads.
 
 Hints:
 
-To change the schedule, you can either change the environment variable with
+- To change the schedule, you can either change the environment variable with
 ``export OMP_SCHEDULE=type`` where ``type`` can be any of static, dynamic, guided or in
 the source code as ``omp parallel for schedule(type)``.
 
@@ -239,5 +239,5 @@ Questions:
 
 - What is the scheduling that provides the best performance? What is the reason for that?
 - What is the fastest parallel implementation of pi.c / pi.f90 program? What is
-  the reason for being the fastest? What would be an even faster implementation
+  the reason for it being the fastest? What would be an even faster implementation
   of pi.c / pi.f90 program?
