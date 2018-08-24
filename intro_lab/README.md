@@ -22,23 +22,19 @@ To compile your C OpenMP code using the default Cray compilers:
 cc -O2 -openmp -lm name_source.c -o name_exec
 ```
 
-In Fortran, you need to use the Intel compiler. On Beskow, you first need to
-switch first from Cray to Intel compiler with:
+Alternatively, compile your C OpenMP code using GNU compilers:
+
+```
+module swap PrgEnv-cray PrgEnv-gnu
+cc -O2 -fopenmp -lm name_source.c -o name_exec
+```
+
+In Fortran, it is recommended to use the Intel compiler
 
 ```
 module swap PrgEnv-cray PrgEnv-intel
-```
-
-and then compile with:
-
-```
 ftn -fpp -O2 -openmp -lm name_source.f90 -o name_exec
 ```
-
-<!---
-**Very Important**: Do not copy and paste from this document to your terminal
-since the - symbol will create problems when compiling.
--->
 
 To run your code on Beskow, you will need to have an interactive allocation:
 
