@@ -24,7 +24,7 @@ programming if necessary.
 For this exercise we solve the shallow water equations on a square domain using
 a simple dimensional splitting approach. Updating volumes Q with numerical
 fluxes F and G, first in the x and then in the y direction, more easily
-expressed with the following pseudo-code.
+expressed with the following pseudo-code
 
 ```
 for each time step do
@@ -40,11 +40,11 @@ for each time step do
 end
 ```
 
-In order to obtain good parallel speedup with OpenMP, each sub task assigned to
-a thread needs to be rather larger. Since the nested loops contains a lot of
+In order to obtain good parallel speedup with OpenMP, each sub-task assigned to
+a thread needs to be rather large. Since the nested loops contains a lot of
 numerical calculations the solver is a perfect candidate for OpenMP
 parallelization. But as you will see in this exercise, it’s fairly difficult to
-easily obtain optimal speedup on today’s multi-core computers. However, it
+obtain optimal speedup on today’s multi-core computers. However, it
 should be fairly easy to obtain some speedup without too much effort. The
 difficult task is to make a good use of all the available cores.
 
@@ -66,12 +66,12 @@ below
 
 ```
 !$omp parallel do
-do i=1,n
-...
+    do i=1,n
+    ...
 !$omp end parallel do
 !$omp parallel do
-do j=1,m
-...
+    do j=1,m
+    ...
 !$omp end parallel do
 ```
 
@@ -79,14 +79,14 @@ and
 
 ```
 !$omp parallel
-!$omp do
-do i=1,n
-...
-!$omp end do
-!$omp do
-do j=1,m
-...
-!$omp end do
+    !$omp do
+        do i=1,n
+        ...
+    !$omp end do
+    !$omp do
+        do j=1,m
+        ...
+    !$omp end do
 !$omp end parallel
 ```
 
@@ -95,14 +95,14 @@ _Hint: How are threads created/destroyed by OpenMP? How can it impact performanc
 ### 2. Measure parallel performance.
 
 In this exercise, parallel performance refers to the computational speedup _S<sub>n</sub>_ =
-_T<sub>1</sub>_/_T<sub>n</sub>_, using _n_ threads. Measure run time T for 1, 2, ..., 16 threads and
+_T_<sub>1</sub>/_T<sub>n</sub>_, using _n_ threads. Measure run time T for 1, 2, ..., 16 threads and
 calculate speedup. Is it linear? If not, why? Finally, is the obtained speedup
 acceptable? Also, try to increase the space discretization (M,N) and see if it
-affect the speedup.
+affects the speedup.
 
-Recall from the OpenMP exercise that the number of threads is determined by an
+Recall from the OpenMP exercises that the number of threads is determined by an
 environment variable ``OMP_NUM_THREADS``. One could change the variable or use
-the provided shell script in Appendix B.
+the shell script provided in Appendix B.
 
 ### 3. Optimize the code.
 
@@ -113,8 +113,8 @@ result.
 
 For debugging purposes you might want to visualize the computed solution.
 Uncomment the line ``save_vtk``. The result will be stored in ``result.vtk``, which can
-be opened in ParaView, available on the lab computers after the module has been
-loaded ``module add paraview``. Beware the resulting file could be rather large,
+be opened in ParaView, available on the lab computers after 
+``module add paraview``. Beware that the resulting file could be rather large,
 unless the space discretization (M,N) is decreased.
 
 ### A. About the Finite-Volume solver
@@ -124,8 +124,8 @@ by
 
 <img src="image/eq_1.png" alt="Eq_1" width="800px"/>
 
-where _h_ is the depth and (_u_,_v_) are the velocity vector. To solve the equations
-we use a dimensional splitting approach, reducing the two dimensional problem
+where _h_ is the depth and (_u_,_v_) are the velocity vectors. To solve the equations
+we use a dimensional splitting approach, i.e. reducing the two dimensional problem
 to a sequence of one-dimensional problems
 
 <img src="image/eq_2.png" alt="Eq_2" width="800px"/>
@@ -140,7 +140,7 @@ reflective boundary conditions, thus at the boundary
 
 <img src="image/eq_4.png" alt="Eq_4" width="800px"/>
 
-### B. Run script
+### B. Run script for changing OMP_NUM_THREADS
 
 ```
 #!/bin/csh
