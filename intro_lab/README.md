@@ -55,10 +55,10 @@ export OMP_NUM_THREADS=<number-of-threads>
 To run an OpenMP code on a computing node of Beskow:
 
 ```
-aprun -n 1 -d number of threads -cc none ./name_exec
+aprun -n 1 -d <number-of-threads> -cc none ./name_exec
 ```
 
-## Exercise-1 - OpenMP Hello World: get familiar with OpenMp Environment
+## Exercise 1 - OpenMP Hello World: get familiar with OpenMp Environment
 
 _Concepts: Parallel regions, parallel, thread ID_
 
@@ -98,14 +98,14 @@ Questions:
 - How many different ways are there to change the number of threads? Which one are those?
 - How can you make the output ordered from thread 0 to thread 4?
 
-## Exercise 2 - Creating Threads: calculate pi in parallel opnalryaulslienlg tphreagma 
+## Exercise 2 - Creating Threads: calculate &pi; in parallel using only pragma omp parallel
 
 _Concepts: Parallel, default data environment, runtime library calls_
 
 Here we are going to implement a first parallel version of the pi.c / pi.f90
-code to calculate the value of pi using the parallel construct.
+code to calculate the value of &pi; using the parallel construct.
 
-The figure below shows the numerical technique, we are going to use to calculate pi.
+The figure below shows the numerical technique, we are going to use to calculate &pi;.
 
 <img src="image/pi_int.png" alt="PI_integral" width="350px"/>
 
@@ -119,7 +119,7 @@ We can approximate the integral as a sum of rectangles
 
 where each rectangle has width &Delta;x and height F(x<sub>i</sub>) at the middle of interval i.
 
-A simple serial C code to calculate pi is the following:
+A simple serial C code to calculate &pi; is the following:
 
 ```
 static long num_steps = 100000000;
@@ -192,12 +192,12 @@ Questions:
 - Is there any technique you heard in class to improve the scalability of the
   technique? How would you implement it?
 
-## Exercise 3 - calculate picursintgical andatomic directives
+## Exercise 3 - Calculate &pi; using critical and atomic directives
 
 _Concepts: parallel region, synchronization, critical, atomic_
 
 Here we are going to implement a second and a third parallel version of the
-pi.c / pi.f90 code to calculate the value of pi using the critical and atomic
+pi.c / pi.f90 code to calculate the value of &pi; using the critical and atomic
 directives.
 
 Instructions: Create two new parallel versions of the pi.c / pi.f90 program
@@ -207,7 +207,7 @@ time with 1, 2, 4, 8, 16, 32 threads. Record the timing in a table.
 
 Hints:
 
-- We can use a shared variable pi to be updated concurrently by different
+- We can use a shared variable &pi; to be updated concurrently by different
   threads. However, this variable needs to be protected with a critical section
   or an atomic access.
 - Use critical and atomic before the update ``pi += step``
@@ -220,12 +220,12 @@ Questions:
 - Do the two version of the codes differ in performance? If so, what do you
   think it is the reason?
 
-## Exercise 4 - calculate pi with a loop and a reduction
+## Exercise 4 - Calculate &pi; with a loop and a reduction
 
 _Concepts: worksharing, parallel loop, schedule, reduction_
 
 Here we are going to implement a fourth parallel version of the pi.c / pi.f90
-code to calculate the value of pi using omp for and reduction operations.
+code to calculate the value of &pi; using omp for and reduction operations.
 
 Instructions: Create a new parallel versions of the pi.c / pi.f90 program using
 the parallel construct ``#pragma omp for`` and ``reduction`` operation. Run the new
