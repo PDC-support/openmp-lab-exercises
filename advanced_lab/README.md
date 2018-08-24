@@ -113,7 +113,7 @@ result.
 
 For debugging purposes you might want to visualize the computed solution.
 Uncomment the line ``save_vtk``. The result will be stored in ``result.vtk``, which can
-be opened in ParaView, available on the lab computers after 
+be opened in ParaView, available on the lab computers (and also on Tegner) after 
 ``module add paraview``. Beware that the resulting file could be rather large,
 unless the space discretization (M,N) is decreased.
 
