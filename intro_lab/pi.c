@@ -9,7 +9,7 @@
  */
 int main(int argc, char** argv)
 {
-    unsigned long nsteps = 1<<27; /* around 10^8 steps */
+    unsigned long nsteps = 100000000;
     double dx = 1.0 / nsteps;
 
     double pi = 0.0;
@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 
     double run_time = omp_get_wtime() - start_time;
     double ref_pi = 4.0 * atan(1.0);
-    printf("\npi with %ld steps is %.10f in %.6f seconds (error=%e)\n",
+    printf("pi with %ld steps is %.10f in %.6f seconds (error=%e)\n",
            nsteps, pi, run_time, fabs(ref_pi - pi));
 
     return 0;
