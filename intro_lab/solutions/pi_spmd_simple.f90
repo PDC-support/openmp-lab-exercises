@@ -1,66 +1,55 @@
-! NAME: PI SPMD ... a simple version.
-!
-! This program will numerically compute the integral of
-!
-!                   4/(1+x*x) 
-!   
-! from 0 to 1.  The value of this integral is pi -- which 
-! is great since it gives us an easy way to check the answer.
-!
-! The program was parallelized using OpenMP and an SPMD 
-! algorithm.
+! This program computes pi as
+! \pi = 4 arctan(1)
+!     = 4 \int _0 ^1 \frac{1} {1 + x^2} dx
 
-program calc_pi
+program compute_pi
 
 use omp_lib
 
 implicit none
 
-integer, parameter :: MAX_THREADS = 4
+integer(kind=8), parameter :: NSTEPS = 134217728
+integer, parameter :: MAXTHREADS = 4
 
-integer(kind=8) :: num_steps = 100000000
-real(kind=8) step
+integer(kind=8) :: i
+integer nthreads, omp_id
 
-integer i, num_threads
-real(kind=8) pi, full_sum
+real(kind=8) :: dx, x, full_pi, ref_pi
 real(kind=8) start_time, run_time
-real(kind=8), dimension(1:MAX_THREADS) :: partial_sum
+real(kind=8), dimension(1:MAXTHREADS) :: partial_pi
 
-integer thread_id
-real(kind=8) x
+dx = 1.0D0 / NSTEPS
 
-step = 1.0D0 / num_steps
+do nthreads = 1, MAXTHREADS
 
-do num_threads = 1, MAX_THREADS
-
-    call OMP_SET_NUM_THREADS(num_threads)
+    call OMP_SET_NUM_THREADS(nthreads)
     start_time = OMP_GET_WTIME()
 
-    !$omp parallel private(thread_id, i, x)
+    !$omp parallel private(omp_id, i, x)
 
-        thread_id = OMP_GET_THREAD_NUM() + 1
-        partial_sum(thread_id) = 0.0D0
+        omp_id = OMP_GET_THREAD_NUM() + 1
+        partial_pi(omp_id) = 0.0D0
 
-        if (thread_id == 1) then
-            print '(" num_threads = ", i0)', num_threads
+        if (omp_id == 1) then
+            print '("nthreads = ", i0)', nthreads
         endif
-
-        do i = thread_id, num_steps, num_threads
-            x = (i-0.5D0)*step
-            partial_sum(thread_id) = partial_sum(thread_id) + 4.0D0/(1.0D0+x*x)
+           
+        do i = omp_id, NSTEPS, nthreads
+            x = (i - 0.5D0) * dx
+            partial_pi(omp_id) = partial_pi(omp_id) + 1.0D0 / (1.0D0 + x * x)
         enddo
 
     !$omp end parallel
 
-    full_sum = 0.0
-    do thread_id = 1, num_threads
-        full_sum = full_sum + partial_sum(thread_id)
+    full_pi = 0.0
+    do omp_id = 1, nthreads
+        full_pi = full_pi + partial_pi(omp_id)
     enddo
 
-    pi = step * full_sum
+    full_pi = full_pi * 4.0D0 * dx
     run_time = OMP_GET_WTIME() - start_time
-    print '(" pi is ", f12.6, " in ", f12.6, " seconds and ", i0, " threads. Error = ", e15.6)', &
-        pi, run_time, num_threads, abs(3.14159265358979323846D0 - pi)
+    ref_pi = 4.0D0 * atan(1.0D0)
+    print '("pi with ", i0, " steps is ", f16.10, " in ", f12.6, " seconds (error=", e12.6, ")")', NSTEPS, full_pi, run_time, abs(ref_pi - full_pi)
 
 enddo
 
