@@ -118,20 +118,19 @@ where each rectangle has width &Delta;x and height F(x<sub>i</sub>) at the middl
 A simple serial C code to calculate &pi; is the following:
 
 ```
-static long num_steps = 100000000;
-double step;
-int main()
-{
-    int i;
-    double x, pi, sum = 0.0;
-    double start_time, run_time;
-    step = 1.0/(double) num_steps;
-    for (i=1; i<=num_steps; i++) {
-        x = (i-0.5)*step;
+    unsigned long nsteps = 1<<27; /* around 10^8 steps */
+    double dx = 1.0 / nsteps;
+
+    double pi = 0.0;
+    double start_time = omp_get_wtime();
+
+    unsigned long i;
+    for (i = 0; i < nsteps; i++)
+    {
+        double x = (i + 0.5) * dx;
+        pi += 1.0 / (1.0 + x * x);
     }
-    sum = sum + 4.0/(1.0+x*x);
-    pi = step * sum;
-}
+    pi *= 4.0 * dx;
 ```
 
 Instructions: Create a parallel version of the pi.c / pi.f90 program using a
@@ -151,35 +150,7 @@ Hints:
 - Use a parallel construct: ``#pragma omp parallel``.
 - Divide loop iterations between threads (use the thread ID and the number of threads).
 - Create an accumulator for each thread to hold partial sums that you can later
-  combine to generate the global sum, i.e.,
-
-```
-#define MAX_THREADS 4
-...
-int main ()
-{
-    double pi, full_sum = 0.0;
-    double sum[MAX_THREADS];
-    for (j=1; j<=MAX_THREADS; j++) {
-        /* set the number of threads to j and start timing here */
-        ...
-        #pragma omp parallel
-        {
-            ...
-            sum[id] = 0.0;
-            for (i ...) {
-                x = (i+0.5)*step;
-                sum[id] = sum[id] + 4.0/(1.0+x*x);
-            }
-            // calculate full_sum iterating over sum[id]
-            ...
-            pi = step * full_sum;
-            /* stop and report timing here */
-            ...
-        }
-    }
-}
-```
+  combine to generate the global sum.
 
 Questions:
 
