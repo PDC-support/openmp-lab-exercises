@@ -107,7 +107,7 @@ The figure below shows the numerical technique, we are going to use to calculate
 
 Mathematically, we know that
 
-<img src="image/pi_eq_1.png" alt="PI_Eq_1" width="200px"/>
+<img src="image/pi_eq_1.png" alt="PI_Eq_1" width="220px"/>
 
 We can approximate the integral as a sum of rectangles
 
