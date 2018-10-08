@@ -1,94 +1,52 @@
-/*
-
-NAME:   PI SPMD final version without false sharing
-
-This program will numerically compute the integral of
-
-                  4/(1+x*x) 
-
-from 0 to 1.  The value of this integral is pi -- which 
-is great since it gives us an easy way to check the answer.
-
-The program was parallelized using OpenMP and an SPMD 
-algorithm.  The following OpenMP specific lines were 
-added: 
-
-(1) A line to include omp.h -- the include file that 
-contains OpenMP's function prototypes and constants.
-
-(2) A pragma that tells OpenMP to create a team of threads
-with an integer variable i being created for each thread.
-
-(3) two function calls: one to get the thread ID (ranging
-from 0 to one less than the number of threads), and the other
-returning the total number of threads.
-
-(4) A "single" construct so only one thread prints the number
-of threads.
-
-(5) A cyclic distribution of the loop by changing loop control
-expressions to run from the thread ID incremented by the number 
-of threads.  Local sums accumlated into sum[id].
-
-(6) A barrier to make sure everyone's done.
-
-(7) A single construct so only one thread combines the local
-sums into a single global sum.
-
-Note that this program avoids the false sharing problem
-by storing partial sums into a private scalar.
-
-History: Written by Tim Mattson, 11/99.
-
-*/
-
 #include <stdio.h>
+#include <math.h>
 #include <omp.h>
 
-#define MAX_THREADS 4
+#define NSTEPS 134217728
+#define MAXTHREADS 4
 
-static long num_steps = 100000000;
-double step;
-
-int main ()
+/*
+ * This program computes pi as
+ * \pi = 4 arctan(1)
+ *     = 4 \int _0 ^1 \frac{1} {1 + x^2} dx
+ */
+int main(int argc, char** argv)
 {
-    int i,j;
-    double pi, full_sum = 0.0;
-    double start_time, run_time;
-    double sum[MAX_THREADS];
+    double dx = 1.0 / NSTEPS;
 
-    step = 1.0/(double) num_steps;
+    int nthreads;
+    for (nthreads = 1; nthreads <= MAXTHREADS; nthreads++)
+    {
+        long i;
+        double x, partial_pi, full_pi = 0.0;
 
-    for(j=1;j<=MAX_THREADS ;j++){
+        omp_set_num_threads(nthreads);
+        double start_time = omp_get_wtime();
 
-        omp_set_num_threads(j);
-        full_sum = 0.0;
-        start_time = omp_get_wtime();
-
-        #pragma omp parallel private(i)
+        #pragma omp parallel private(i,x,partial_pi)
         {
-            int id = omp_get_thread_num();
-            int numthreads = omp_get_num_threads();
-            double x;
+            int omp_id = omp_get_thread_num();
 
-            double partial_sum = 0;
+            if (omp_id == 0)
+                printf("num_threads = %d,  ", nthreads);
 
-            #pragma omp single
-            printf(" num_threads = %d",numthreads);
-
-            for (i=id;i< num_steps; i+=numthreads){
-                x = (i+0.5)*step;
-                partial_sum += + 4.0/(1.0+x*x);
+            partial_pi = 0.0;
+            for (i = omp_id; i < NSTEPS; i += nthreads)
+            {
+                x = (i + 0.5) * dx;
+                partial_pi += 1.0 / (1.0 + x * x);
             }
 
-            #pragma omp critical
-            full_sum += partial_sum;
+            #pragma omp atomic
+            full_pi += partial_pi;
         }
 
-        pi = step * full_sum;
-        run_time = omp_get_wtime() - start_time;
-        printf("\n pi is %f in %f seconds %d threads \n",pi,run_time,j);
+        full_pi *= 4.0 * dx;
+        double run_time = omp_get_wtime() - start_time;
+        double ref_pi = 4.0 * atan(1.0);
+        printf("pi with %ld steps is %.10f in %.6f seconds (error=%e)\n",
+               NSTEPS, full_pi, run_time, fabs(ref_pi - full_pi));
     }
 
     return 0;
-}    
+}

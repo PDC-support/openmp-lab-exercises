@@ -1,67 +1,46 @@
-/*
-
-This program will numerically compute the integral of
-
-                  4/(1+x*x) 
-
-from 0 to 1.  The value of this integral is pi -- which 
-is great since it gives us an easy way to check the answer.
-
-The program was parallelized using OpenMP by adding just
-four lines 
-
-(1) A line to include omp.h -- the include file that 
-contains OpenMP's function prototypes and constants.
-
-(2) A pragma that tells OpenMP to create a team of threads
-
-(3) A pragma to cause one of the threads to print the
-number of threads being used by the program.
-
-(4) A pragma to split up loop iterations among the team
-of threads.  This pragma includes 2 clauses to (1) create a 
-private variable and (2) to cause the threads to compute their
-sums locally and then combine their local sums into a 
-single global value.
-
-History: Written by Tim Mattson, 11/99.
-
-*/
-
 #include <stdio.h>
+#include <math.h>
 #include <omp.h>
 
-static long num_steps = 100000000;
-double step;
+#define NSTEPS 134217728
+#define MAXTHREADS 4
 
-int main ()
+/*
+ * This program computes pi as
+ * \pi = 4 arctan(1)
+ *     = 4 \int _0 ^1 \frac{1} {1 + x^2} dx
+ */
+int main(int argc, char** argv)
 {
-    int i;
-    double x, pi, sum = 0.0;
-    double start_time, run_time;
+    double dx = 1.0 / NSTEPS;
 
-    step = 1.0/(double) num_steps;
+    int nthreads;
+    for (nthreads = 1; nthreads <= MAXTHREADS; nthreads++)
+    {
+        long i;
+        double x, pi = 0.0;
 
-    for (i=1;i<=4;i++){
-        sum = 0.0;
-        omp_set_num_threads(i);
-        start_time = omp_get_wtime();
+        omp_set_num_threads(nthreads);
+        double start_time = omp_get_wtime();
 
         #pragma omp parallel  
         {
             #pragma omp single
-            printf(" num_threads = %d",omp_get_num_threads());
+            printf("num_threads = %d,  ", nthreads);
 
-            #pragma omp for private(x) reduction(+:sum)
-            for (i=1;i<= num_steps; i++){
-                x = (i-0.5)*step;
-                sum = sum + 4.0/(1.0+x*x);
+            #pragma omp for private(x) reduction(+:pi)
+            for (i = 0; i < NSTEPS; i++)
+            {
+                x = (i + 0.5) * dx;
+                pi += 1.0 / (1.0 + x * x);
             }
         }
 
-        pi = step * sum;
-        run_time = omp_get_wtime() - start_time;
-        printf("\n pi is %f in %f seconds and %d threads\n",pi,run_time,i);
+        pi *= 4.0 * dx;
+        double run_time = omp_get_wtime() - start_time;
+        double ref_pi = 4.0 * atan(1.0);
+        printf("pi with %ld steps is %.10f in %.6f seconds (error=%e)\n",
+               NSTEPS, pi, run_time, fabs(ref_pi - pi));
     }
 
     return 0;
