@@ -51,7 +51,7 @@ export OMP_NUM_THREADS=<number-of-threads>
 To run an OpenMP code on a computing node of Beskow:
 
 ```
-aprun -n 1 -d <number-of-threads> -cc none ./name_exec
+srun -n 1 ./name_exec
 ```
 
 ## Exercise 1 - OpenMP Hello World: get familiar with OpenMp Environment
@@ -68,7 +68,7 @@ Your code using 4 threads should behave similarly to:
 Input:
 
 ```
-aprun -n 1 -d 4 -cc none ./hello
+srun -n 1 ./hello
 ```
 
 Output:

@@ -50,7 +50,7 @@ difficult task is to make a good use of all the available cores.
 
 Choose to work with either the given serial C/Fortran 90 code or, if you think
 you have time, write your own implementation (but don’t waste time and energy).
-Compile the code by typing make and execute the program ``shwater2d`` with ``aprun`` as
+Compile the code by typing make and execute the program ``shwater2d`` with ``srun`` as
 described in the [general
 instructions](https://www.pdc.kth.se/support/documents/courses/summerschool.html).
 
@@ -145,6 +145,6 @@ reflective boundary conditions, thus at the boundary
 ```
 #!/bin/csh
 foreach n (`seq 1 1 16`)
-    env OMP_NUM_THREADS=$n aprun -n 1 -d $n ./a.out
+    env OMP_NUM_THREADS=$n srun -n 1 ./a.out
 end
 ```

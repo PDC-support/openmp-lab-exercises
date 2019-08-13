@@ -32,15 +32,21 @@ First it is necessary to book a node for interactive use:
 salloc -A <allocation-name> -N 1 -t 1:0:0
 ```
 
-Then the aprun command is used to launch an OpenMP application:
+An environment variable specifying the number of threads should also be set:
 
 ```
-aprun -n 1 -d <number of threads> -cc none ./example.x
+export OMP_NUM_THREADS=<number-of-threads>
+```
+
+Then the srun command is used to launch an OpenMP application:
+
+```
+srun -n 1 ./example.x
 ```
 
 In this example we will start one task with 32 threads (there are 32 cores per node on the Beskow nodes).
 
-It is important to use the `aprun` command since otherwise the job will run on the Beskow login node.
+It is important to use the `srun` command since otherwise the job will run on the Beskow login node.
 
 # OpenMP Exercises
 

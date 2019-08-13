@@ -35,7 +35,8 @@ $ make part1ex1
 Run the resulting program:
 
 ```bash
-aprun -n 1 -d number of threads ./part1ex1
+export OMP_NUM_THREADS=<number of threads>
+srun -n 1 ./part1ex1
 ```
 
 Remember that on the Cray you need to set the environment variable OMP_NUM_THREADS to the number of threads as described in the general instructions.
