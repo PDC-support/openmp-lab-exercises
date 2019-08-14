@@ -1,6 +1,6 @@
 FC = ftn
 ifeq ($(CRAY_PRGENVCRAY), loaded)
-FFLAGS = -O2 -homp
+FFLAGS = -O2 -openmp
 else ifeq ($(CRAY_PRGENVINTEL), loaded)
 FFLAGS = -O2 -openmp
 else ifeq ($(CRAY_PRGENVGNU), loaded)

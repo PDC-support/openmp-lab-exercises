@@ -56,7 +56,8 @@ instructions](https://www.pdc.kth.se/support/documents/courses/summerschool.html
 
 ### 1. Parallelize the code. 
 
-Start with the file ``shwater2d.(c/f90)``, add OpenMP statements to make it run in
+Start with the file [shwater2d.c](c/shwater2d.c) or 
+[shwater2d.f](f90/shwater2d.f90), add OpenMP statements to make it run in
 parallel and make sure the computed solution is correct. Some advice are given
 below
 
@@ -113,7 +114,7 @@ result.
 
 For debugging purposes you might want to visualize the computed solution.
 Uncomment the line ``save_vtk``. The result will be stored in ``result.vtk``, which can
-be opened in ParaView, available on the lab computers (and also on Tegner) after 
+be opened in ParaView, available on Tegner after 
 ``module add paraview``. Beware that the resulting file could be rather large,
 unless the space discretization (M,N) is decreased.
 

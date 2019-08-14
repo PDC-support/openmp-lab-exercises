@@ -22,20 +22,25 @@ The Cray automatically loads several [modules](https://www.pdc.kth.se/support/do
 - Heimdal - [Kerberos commands](https://www.pdc.kth.se/support/documents/login/login.html#general-information-about-kerberos)
 - OpenAFS - [AFS commands](https://www.pdc.kth.se/support/documents/data_management/afs.html)
 - SLURM -  [batch jobs](https://www.pdc.kth.se/support/documents/run_jobs/queueing_jobs.html) and [interactive jobs](https://www.pdc.kth.se/support/documents/run_jobs/run_interactively.html)
-
+- Software development - [Programming environments and compilers](https://www.pdc.kth.se/support/documents/software_development/development.html)
 
 # Running OpenMP programs on Beskow
 
-First it is necessary to book a node for interactive use:
+After having compiled your code with the 
+[correct compilers flags for OpenMP](https://www.pdc.kth.se/support/documents/software_development/development.html), 
+it is necessary to book a node for interactive use:
 
 ```
 salloc -A <allocation-name> -N 1 -t 1:0:0
 ```
 
+You might also need to specify a **reservation** by adding the flag 
+``--reservation=<name-of-reservation>``.
+
 An environment variable specifying the number of threads should also be set:
 
 ```
-export OMP_NUM_THREADS=<number-of-threads>
+export OMP_NUM_THREADS=32
 ```
 
 Then the srun command is used to launch an OpenMP application:
