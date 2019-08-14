@@ -134,7 +134,8 @@ A simple serial C code to calculate &pi; is the following:
     pi *= 4.0 * dx;
 ```
 
-Instructions: Create a parallel version of the pi.c / pi.f90 program using a
+Instructions: Create a parallel version of the 
+[pi.c](pi.c) / [pi.f90](pi.f90) program using a
 parallel construct: ``#pragma omp parallel``. Run the parallel code and take the
 execution time with 1, 2, 4, 8, 16, 32 threads. Record the timing.
 
@@ -155,9 +156,9 @@ Hints:
 
 Questions:
 
-- How does the execution time change varying the number of threads? Is what you
-  expected? If not, why you think it is so?
-- Is there any technique you heard in class to improve the scalability of the
+- How does the execution time change varying the number of threads? Is it what you
+  expected? If not, why do you think it is so?
+- Is there any technique you heard of in class to improve the scalability of the
   technique? How would you implement it?
 
 ## Exercise 3 - Calculate &pi; using critical and atomic directives
@@ -165,10 +166,11 @@ Questions:
 _Concepts: parallel region, synchronization, critical, atomic_
 
 Here we are going to implement a second and a third parallel version of the
-pi.c / pi.f90 code to calculate the value of &pi; using the critical and atomic
-directives.
+[pi.c](pi.c) / [pi.f90](pi.f90) code to calculate the value of &pi; 
+using the critical and atomic directives.
 
-Instructions: Create two new parallel versions of the pi.c / pi.f90 program
+Instructions: Create two new parallel versions of the 
+[pi.c](pi.c) / [pi.f90](pi.f90) program
 using the parallel construct ``#pragma omp parallel`` and 1) ``#pragma omp critical``
 2) ``#pragma omp atomic``. Run the two new parallel codes and take the execution
 time with 1, 2, 4, 8, 16, 32 threads. Record the timing in a table.
@@ -192,10 +194,12 @@ Questions:
 
 _Concepts: worksharing, parallel loop, schedule, reduction_
 
-Here we are going to implement a fourth parallel version of the pi.c / pi.f90
+Here we are going to implement a fourth parallel version of the 
+[pi.c](pi.c) / [pi.f90](pi.f90)
 code to calculate the value of &pi; using ``omp for`` and ``reduction`` operations.
 
-Instructions: Create a new parallel versions of the pi.c / pi.f90 program using
+Instructions: Create a new parallel versions of the 
+[pi.c](pi.c) / [pi.f90](pi.f90) program using
 the parallel construct ``#pragma omp for`` and ``reduction`` operation. Run the new
 parallel code and take the execution time for 1, 2, 4, 8, 16, 32 threads. Record
 the timing in a table. Change the schedule to dynamic and guided and measure
