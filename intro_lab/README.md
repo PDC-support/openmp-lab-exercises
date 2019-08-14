@@ -39,7 +39,7 @@ ftn -fpp -O2 -openmp -lm name_source.f90 -o name_exec
 To run your code on Beskow, you will need to have an interactive allocation:
 
 ```
-salloc -N 1 -t 4:00:00 -A edu18.summer --reservation=summer-2018-08-15
+salloc -N 1 -t 4:00:00 -A <name-of-allocation> --reservation=<name-of-reservation>
 ```
 
 To set the number of threads, you need to set the OpenMP environment variable:
@@ -98,7 +98,8 @@ Questions:
 
 _Concepts: Parallel, default data environment, runtime library calls_
 
-Here we are going to implement a first parallel version of the pi.c / pi.f90
+Here we are going to implement a first parallel version of the 
+[pi.c](pi.c) / [pi.f90](pi.f90)
 code to calculate the value of &pi; using the parallel construct.
 
 The figure below shows the numerical technique, we are going to use to calculate &pi;.
