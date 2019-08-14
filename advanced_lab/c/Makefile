@@ -1,6 +1,6 @@
 CC = cc
 ifeq ($(CRAY_PRGENVCRAY), loaded)
-CFLAGS = -O2 -homp
+CFLAGS = -O2 -openmp
 else ifeq ($(CRAY_PRGENVINTEL), loaded)
 CFLAGS = -O2 -openmp
 else ifeq ($(CRAY_PRGENVGNU), loaded)
