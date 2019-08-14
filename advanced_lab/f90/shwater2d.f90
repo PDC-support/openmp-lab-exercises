@@ -35,7 +35,7 @@ program shwater2d
   real(kind=dp), dimension(:), allocatable :: x, y
   integer i, j, ifail, m, n
   real(kind=dp) dx, dt, epsi, delta, dy, tend, tmp
-  real stime
+  real stime, etime
   real, external :: rtc
   external fx,fy
 
@@ -73,8 +73,7 @@ program shwater2d
 
   if(ifail .ne. 0) then
      deallocate(Q, x, y)
-     write(*,*) 'Memory exhausted'
-     stop
+     stop 'Memory exhausted'
   else
      tmp = -dx/2 + xstart
      do i=1,m
@@ -107,8 +106,15 @@ program shwater2d
   !
   stime = rtc()
   call solver(Q, cell_size, m, n, tend, dx, dy, dt, fx, fy)
-  write(*,*) 'Solver took',rtc()-stime,'sec'
+  etime = rtc()
 
+  !
+  ! Check if solution is finite
+  ! 
+  call validate(Q, cell_size, m, n)
+
+  write(*,*) 'Solver took',etime-stime,'sec'
+  
   !
   ! Uncomment this line if you want visualize the result in ParaView
   !
@@ -229,6 +235,7 @@ end subroutine laxf_scheme_2d
 ! fx              flux function in the x-direction
 ! fy              flux function in the y-direction
 ! rtc             timing function
+! validate        check that the solution is finite
 !
 !-----------------------------------------------------------------------
 
@@ -282,5 +289,27 @@ real function rtc()
   rtc = icnt * scaling
 
 end function rtc
+
+!-----------------------------------------------------------------------
+
+subroutine validate(q, l, m, n)
+  use types
+  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+  implicit none
+  real(kind=dp), intent(in),dimension(l,m,n) :: q
+  integer, intent(in) :: l, m, n
+  integer i, j, k 
+
+  do j=1,n
+     do i=1,m
+        do k=1,l
+           if (.not. ieee_is_finite(q(k,i,j))) then  
+              stop 'Invalid solution'
+           end if
+        end do
+     end do
+  end do
+
+end subroutine validate
 
 !-----------------------------------------------------------------------

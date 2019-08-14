@@ -1,5 +1,5 @@
 /*
- *  shwater2d.f90 solves the two dimensional shallow water equations 
+ *  shwater2d.c solves the two dimensional shallow water equations 
  *  using the Lax-Friedrich's scheme
  */
 
@@ -22,6 +22,18 @@ double gettime(void) {
   struct timeval tv;
   gettimeofday(&tv,NULL);
   return tv.tv_sec + 1e-6*tv.tv_usec;
+}
+
+/* Check that the solution is finite */
+void validate(double *Q, int m, int n) {
+  int i, j, k;
+  for (i = 0; i < n; i++) 
+    for (j = 0; j < m; j++) 
+      for (k = 0; k < cell_size;  k++)
+	if (!isfinite(Q(k, j, i))) {
+	  fprintf(stderr, "Invalid solution\n");
+	  exit(-1);
+	}
 }
 
 /* Flux function in the x-direction */
@@ -136,7 +148,7 @@ int main(int argc, char **argv) {
   double *Q;
   double *x, *y;
   double **ffx, **nFx, **ffy, **nFy;
-  double dx, dt, epsi, delta, dy, tend, tmp, stime;
+  double dx, dt, epsi, delta, dy, tend, tmp, stime, etime;
   
 
   /* Use m volumes in the x-direction and n volumes in the y-direction */    
@@ -210,7 +222,11 @@ int main(int argc, char **argv) {
 
   stime = gettime();
   solver(Q, ffx, ffy, nFx, nFy, m, n, tend, dx, dy, dt);
-  printf("Solver took %g seconds\n", gettime() - stime);
+  etime = gettime();
+
+  validate(Q, m,  n);
+
+  printf("Solver took %g seconds\n", etime - stime);
 
 
   /* Uncomment this line if you want visualize the result in ParaView */

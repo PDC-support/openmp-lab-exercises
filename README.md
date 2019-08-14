@@ -22,25 +22,36 @@ The Cray automatically loads several [modules](https://www.pdc.kth.se/support/do
 - Heimdal - [Kerberos commands](https://www.pdc.kth.se/support/documents/login/login.html#general-information-about-kerberos)
 - OpenAFS - [AFS commands](https://www.pdc.kth.se/support/documents/data_management/afs.html)
 - SLURM -  [batch jobs](https://www.pdc.kth.se/support/documents/run_jobs/queueing_jobs.html) and [interactive jobs](https://www.pdc.kth.se/support/documents/run_jobs/run_interactively.html)
-
+- Software development - [Programming environments and compilers](https://www.pdc.kth.se/support/documents/software_development/development.html)
 
 # Running OpenMP programs on Beskow
 
-First it is necessary to book a node for interactive use:
+After having compiled your code with the 
+[correct compilers flags for OpenMP](https://www.pdc.kth.se/support/documents/software_development/development.html), 
+it is necessary to book a node for interactive use:
 
 ```
 salloc -A <allocation-name> -N 1 -t 1:0:0
 ```
 
-Then the aprun command is used to launch an OpenMP application:
+You might also need to specify a **reservation** by adding the flag 
+``--reservation=<name-of-reservation>``.
+
+An environment variable specifying the number of threads should also be set:
 
 ```
-aprun -n 1 -d <number of threads> -cc none ./example.x
+export OMP_NUM_THREADS=32
+```
+
+Then the srun command is used to launch an OpenMP application:
+
+```
+srun -n 1 ./example.x
 ```
 
 In this example we will start one task with 32 threads (there are 32 cores per node on the Beskow nodes).
 
-It is important to use the `aprun` command since otherwise the job will run on the Beskow login node.
+It is important to use the `srun` command since otherwise the job will run on the Beskow login node.
 
 # OpenMP Exercises
 
@@ -48,16 +59,13 @@ The aim of these exercises is to give an introduction to OpenMP programming.
 All examples are available in both C and Fortran90.
 
 - OpenMP Intro lab: 
-  - [Instructions](intro_lab/OpenMPlab-assigment.pdf)
+  - [Instructions](intro_lab/README.md)
   - Simple hello world program [in C](intro_lab/hello.c) and [in Fortran](intro_lab/hello.f90)
-  - Calculate pi [in C](intro_lab/pi.c) and [in Fortran](intro_lab/pi.f90)
+  - Calculate &pi; [in C](intro_lab/pi.c) and [in Fortran](intro_lab/pi.f90)
   - Solutions will be made available later during the lab
 - OpenMP Advanced Lab: 
-  - [Instructions](advanced_lab/ompproj.pdf)
+  - [Instructions](advanced_lab/README.md)
   - In C: [shwater2d.c](advanced_lab/c/shwater2d.c), [vtk_export.c](advanced_lab/c/vtk_export.c) and [Makefile](advanced_lab/c/Makefile)
   - In Fortran: [shwater2d.f90](advanced_lab/f90/shwater2d.f90), [vtk_export.f90](advanced_lab/f90/vtk_export.f90) and [Makefile](advanced_lab/f90/Makefile)
   - Solutions will be made available later during the lab
-
-
-
 
