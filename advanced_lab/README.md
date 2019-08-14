@@ -56,7 +56,8 @@ instructions](https://www.pdc.kth.se/support/documents/courses/summerschool.html
 
 ### 1. Parallelize the code. 
 
-Start with the file ``shwater2d.(c/f90)``, add OpenMP statements to make it run in
+Start with the file [shwater2d.c](c/shwater2d.c) or 
+[shwater2d.f](f90/shwater2d.f90), add OpenMP statements to make it run in
 parallel and make sure the computed solution is correct. Some advice are given
 below
 
