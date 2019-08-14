@@ -40,7 +40,7 @@ You might also need to specify a **reservation** by adding the flag
 An environment variable specifying the number of threads should also be set:
 
 ```
-export OMP_NUM_THREADS=<number-of-threads>
+export OMP_NUM_THREADS=32
 ```
 
 Then the srun command is used to launch an OpenMP application:
