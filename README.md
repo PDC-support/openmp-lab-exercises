@@ -22,7 +22,41 @@ The Cray automatically loads several [modules](https://www.pdc.kth.se/support/do
 - Heimdal - [Kerberos commands](https://www.pdc.kth.se/support/documents/login/login.html#general-information-about-kerberos)
 - OpenAFS - [AFS commands](https://www.pdc.kth.se/support/documents/data_management/afs.html)
 - SLURM -  [batch jobs](https://www.pdc.kth.se/support/documents/run_jobs/queueing_jobs.html) and [interactive jobs](https://www.pdc.kth.se/support/documents/run_jobs/run_interactively.html)
-- Software development - [Programming environments and compilers](https://www.pdc.kth.se/support/documents/software_development/development.html)
+- Programming environment - [Compilers for software development](https://www.pdc.kth.se/support/documents/software_development/development.html)
+
+# Compiling MPI programs on Beskow
+
+By default the cray compiler is loaded into your environment. In order to use another compiler you have to swap compiler modules:
+
+```
+module swap PrgEnv-cray PrgEnv-gnu
+```
+or
+```
+module swap PrgEnv-cray PrgEnv-intel
+```
+
+On Beskow one should always use the *compiler wrappers* `cc`, `CC` or 
+`ftn` (for C, C++ and Fortran codes, respectively), 
+which will automatically link to MPI libraries and linear 
+algebra libraries like BLAS, LAPACK, etc.
+
+Examples:
+
+```
+# Intel
+ftn -openmp source.f90
+cc -openmp source.c
+CC -openmp source.cpp
+# Cray
+ftn -openmp source.f90
+cc -openmp source.c
+CC -openmp source.cpp
+# GNU
+ftn -fopenmp source.f90
+cc -fopenmp source.c
+CC -fopenmp source.cpp 
+```
 
 # Running OpenMP programs on Beskow
 
