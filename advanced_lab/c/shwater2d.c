@@ -187,8 +187,8 @@ int main(int argc, char **argv) {
   nFy = (double **) malloc(cell_size * sizeof(double *));
 
   ffx[0] = (double *) malloc(cell_size * m * sizeof(double));
-  ffy[0] = (double *) malloc(cell_size * m * sizeof(double));
-  nFx[0] = (double *) malloc(cell_size * n * sizeof(double));
+  ffy[0] = (double *) malloc(cell_size * n * sizeof(double));
+  nFx[0] = (double *) malloc(cell_size * m * sizeof(double));
   nFy[0] = (double *) malloc(cell_size * n * sizeof(double));
 
   for (i = 0; i < cell_size; i++) {
